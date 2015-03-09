@@ -1,0 +1,30 @@
+{
+  "name": "gifv-player",
+  "version": "0.0.1",
+  "homepage": "https://github.com/globocom/gifv-player",
+  "authors": [
+    "globo.com"
+  ],
+  "description": "Javascript library for playing gifv files.",
+  "main": "dist/js/gifv-player.js",
+  "moduleType": [
+    "globals"
+  ],
+  "dependencies": {
+    "jquery": "1.8.3"
+  },
+  "keywords": [
+    "gifv",
+    "giv",
+    "player",
+    "video"
+  ],
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ]
+}

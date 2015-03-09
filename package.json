@@ -1,0 +1,49 @@
+{
+  "name": "gifv-player",
+  "title": "GIFV Player",
+  "version": "0.0.1",
+  "description": "Javascript library for playing gifv files.",
+  "main": "dist/gifv-player.js",
+  "author": {
+    "name": "Globo.com"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/globocom/gifv-player"
+  },
+  "keywords": [
+    "gifv",
+    "giv",
+    "player",
+    "video"
+  ],
+  "licenses": [
+    {
+      "type": "MIT",
+      "url": "https://raw.githubusercontent.com/globocom/gifv-player/master/LICENSE"
+    }
+  ],
+  "devDependencies": {
+    "phantomjs": "",
+    "grunt": "~0.4.2",
+    "grunt-contrib-connect": "~0.8.0",
+    "grunt-contrib-cssmin": "~0.10.0",
+    "grunt-contrib-watch": "~0.6.1",
+    "grunt-contrib-concat": "~0.5.0",
+    "grunt-contrib-uglify": "~0.6.0",
+    "grunt-contrib-compass": "~1.0.1",
+    "grunt-contrib-jasmine": "~0.4.2",
+    "grunt-template-jasmine-istanbul": "~0.2.6",
+    "grunt-svgstore": "~0.3.4",
+    "grunt-string-replace": "~1.0.0",
+    "grunt-svgmin": "~1.0.0",
+    "grunt-buddyjs": "~0.1.0",
+    "grunt-bump": "~0.0.14",
+    "grunt-webfont": "~0.4.4",
+    "grunt-jslint": "~1.1.12",
+    "grunt-coveralls": "~1.0.0"
+  },
+  "scripts": {
+    "test": "grunt ci"
+  }
+}
