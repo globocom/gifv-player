@@ -2,3 +2,4 @@ _SpecRunner.html
 bower_components/
 node_modules/
 tests/reports/
+.grunt/
