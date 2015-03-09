@@ -1,4 +1,4 @@
-/*global window, $, GifvPlayer, sinon, describe, it, expect, beforeEach, afterEach */
+/*global window, $, GifvPlayer, spyOn, describe, it, expect, beforeEach, afterEach */
 
 describe('GifvPlayer - Detects', function () {
     'use strict';
@@ -13,6 +13,10 @@ describe('GifvPlayer - Detects', function () {
         spyOn(document, 'createElement').andReturn(this.dummyVideo);
     });
 
+    afterEach(function () {
+        this.player.destroy();
+    });
+
     describe('support for', function () {
         beforeEach(function () {
             var context = this;
@@ -25,36 +29,36 @@ describe('GifvPlayer - Detects', function () {
         });
 
         it('general video', function () {
-            var player = new GifvPlayer();
-            expect(player.hasVideoSupport).toBe(true);
+            this.player = new GifvPlayer();
+            expect(this.player.hasVideoSupport).toBe(true);
         });
 
         it('mp4 format', function () {
             this.supportedTypes = ['video/mp4'];
 
-            var player = new GifvPlayer();
-            expect(player.hasVideoSupport).toBe(true);
+            this.player = new GifvPlayer();
+            expect(this.player.hasVideoSupport).toBe(true);
         });
 
         it('ogg format', function () {
             this.supportedTypes = ['video/ogg'];
 
-            var player = new GifvPlayer();
-            expect(player.hasVideoSupport).toBe(true);
+            this.player = new GifvPlayer();
+            expect(this.player.hasVideoSupport).toBe(true);
         });
     });
 
     describe('no support', function () {
         it('for general video', function () {
-            var player = new GifvPlayer();
-            expect(player.hasVideoSupport).toBe(false);
+            this.player = new GifvPlayer();
+            expect(this.player.hasVideoSupport).toBe(false);
         });
 
         it('for any format', function () {
-            this.dummyVideo.canPlayType = function () { return '' };
+            this.dummyVideo.canPlayType = function () { return ''; };
 
-            var player = new GifvPlayer();
-            expect(player.hasVideoSupport).toBe(false);
+            this.player = new GifvPlayer();
+            expect(this.player.hasVideoSupport).toBe(false);
         });
     });
 });

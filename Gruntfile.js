@@ -57,6 +57,7 @@ module.exports = function (grunt) {
                     vendor: [
                         'bower_components/jquery/jquery.js'
                     ],
+                    helpers: 'tests/helpers/*.js',
                     junit: {
                         path: 'tests/reports/',
                         consolidate: true
