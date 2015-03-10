@@ -11,6 +11,7 @@ function GifvPlayer() {
     var VideoController, GifController;
 
     VideoController = {
+        selector: 'video',
         play: function ($element) {
             $element[0].play();
         },
@@ -23,14 +24,14 @@ function GifvPlayer() {
     };
 
     GifController = {
+        selector: '.gifv-player',
         play: function ($element) {
-            $element.find('> img').data('gifv-playing', true);
-            $element.find('> img').attr('src', $element.data('gifv-original'));
+            var $img = $element.find('> img');
+            $img.data('gifv-playing', true).attr('src', $img.data('gifv-original'));
         },
         pause: function ($element) {
-            $element.find('> img')
-                .data('gifv-playing', false)
-                .attr('src', $element.attr('poster'));
+            var $img = $element.find('> img');
+            $img.data('gifv-playing', false).attr('src', $img.data('gifv-poster'));
         },
         isPaused: function ($element) {
             return !$element.find('> img').data('gifv-playing');
@@ -45,9 +46,29 @@ function GifvPlayer() {
                 this.controller = VideoController;
             } else {
                 this.controller = GifController;
+                this.replaceVideoWithWrapper();
             }
 
             this.bindEvents();
+        },
+        replaceVideoWithWrapper: function () {
+            $('video').replaceWith(function () {
+                var $video = $(this);
+
+                return $('<div class="gifv-player" />').append(
+                    $('<img />', {
+                        src: $video.attr('poster'),
+                        attr: {
+                            width: $video.attr('width'),
+                            height: $video.attr('height')
+                        },
+                        data: {
+                            'gifv-poster': $video.attr('poster'),
+                            'gifv-original': $video.data('gifv-original')
+                        }
+                    })
+                );
+            });
         },
         destroy: function () {
             $(document).off('.gifv');
@@ -55,7 +76,7 @@ function GifvPlayer() {
         bindEvents: function () {
             var player = this;
 
-            $(document).on('click.gifv', 'video', function (event) {
+            $(document).on('click.gifv', this.controller.selector, function (event) {
                 event.preventDefault();
 
                 var $video = $(this);

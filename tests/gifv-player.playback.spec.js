@@ -20,15 +20,6 @@ describe('GifvPlayer - Playback', function () {
         var $fixture = $('<div id="fixture"></div>');
         $fixture.html(fixture);
         $('body').append($fixture);
-        $('video').each(function () {
-            FakeVideo.injectPlaybackMethods(this);
-        });
-
-        this.dummyVideo = document.createElement('dummy');
-        spyOn(document, 'createElement').andReturn(this.dummyVideo);
-
-        this.$firstVideo = $('video').eq(0);
-        this.$secondVideo = $('video').eq(1);
     });
 
     afterEach(function () {
@@ -38,7 +29,11 @@ describe('GifvPlayer - Playback', function () {
 
     describe('of gif file', function () {
         beforeEach(function () {
+            this.simulateDisabledVideoSupport();
+
             this.player = new GifvPlayer();
+            this.$firstVideo = $('.gifv-player').eq(0);
+            this.$secondVideo = $('.gifv-player').eq(1);
         });
 
         describe('on play', function () {
@@ -63,6 +58,7 @@ describe('GifvPlayer - Playback', function () {
             it('swaps current image with cover', function () {
                 this.$firstVideo.click();
                 this.$firstVideo.click();
+
                 expect(this.$firstVideo.find('> img').attr('src')).toEqual('cover.gif');
             });
         });
@@ -70,9 +66,14 @@ describe('GifvPlayer - Playback', function () {
 
     describe('of video file', function () {
         beforeEach(function () {
-            this.dummyVideo.canPlayType = function () {
-                return 'maybe';
-            };
+            $('video').each(function () {
+                FakeVideo.injectPlaybackMethods(this);
+            });
+
+            this.$firstVideo = $('video').eq(0);
+            this.$secondVideo = $('video').eq(1);
+
+            this.simulateEnabledVideoSupport();
             this.player = new GifvPlayer();
         });
 
