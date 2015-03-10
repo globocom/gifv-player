@@ -4,9 +4,11 @@ describe('GifvPlayer - Gif Fallback', function () {
     'use strict';
 
     var fixture = [
+        '<div class="gifv-player">',
         '<video poster="cover.gif" data-gifv-original="original.gif" width="200" height="100">',
         '<source src="original.mp4" type="video/mp4" />',
-        '</video>'
+        '</video>',
+        '</div>'
     ].join('');
 
     beforeEach(function () {

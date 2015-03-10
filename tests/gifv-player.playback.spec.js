@@ -4,16 +4,21 @@ describe('GifvPlayer - Playback', function () {
     'use strict';
 
     var fixture = [
+        '<div class="gifv-player">',
         '<video poster="cover.gif" data-gifv-original="original.gif" preload="none" loop="true">',
         '<source src="original.mp4" type="video/mp4" />',
         '<source src="original.ogg" type="video/ogg" />',
         '<img src="cover.gif" />',
         '</video>',
+        '</div>',
+
+        '<div class="gifv-player">',
         '<video poster="cover2.gif" data-gifv-original="original2.gif" preload="none" loop="true">',
         '<source src="original2.mp4" type="video/mp4" />',
         '<source src="original2.ogg" type="video/ogg" />',
         '<img src="cover2.gif" />',
-        '</video>'
+        '</video>',
+        '</div>'
     ].join('');
 
     beforeEach(function () {
@@ -37,6 +42,15 @@ describe('GifvPlayer - Playback', function () {
         });
 
         describe('on play', function () {
+            it('adds overlay for styling', function () {
+                expect(this.$firstVideo.find('.gifv-player-overlay').length).toEqual(1);
+            });
+
+            it('adds `playing` class', function () {
+                this.$firstVideo.click();
+                expect(this.$firstVideo.hasClass('gifv-player-playing')).toEqual(true);
+            });
+
             it('swaps cover with original image', function () {
                 this.$firstVideo.click();
                 expect(this.$firstVideo.find('> img').attr('src')).toEqual('original.gif');
@@ -55,6 +69,12 @@ describe('GifvPlayer - Playback', function () {
         });
 
         describe('on pause', function () {
+            it('removes `playing` class', function () {
+                this.$firstVideo.click();
+                this.$firstVideo.click();
+                expect(this.$firstVideo.hasClass('gifv-player-playing')).toEqual(false);
+            });
+
             it('swaps current image with cover', function () {
                 this.$firstVideo.click();
                 this.$firstVideo.click();

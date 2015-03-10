@@ -11,20 +11,18 @@ function GifvPlayer() {
     var VideoController, GifController;
 
     VideoController = {
-        selector: 'video',
         play: function ($element) {
-            $element[0].play();
+            $element.find('> video')[0].play();
         },
         pause: function ($element) {
-            $element[0].pause();
+            $element.find('> video')[0].pause();
         },
         isPaused: function ($element) {
-            return $element[0].paused;
+            return $element.find('> video')[0].paused;
         }
     };
 
     GifController = {
-        selector: '.gifv-player',
         play: function ($element) {
             var $img = $element.find('> img');
             $img.data('gifv-playing', true).attr('src', $img.data('gifv-original'));
@@ -32,6 +30,7 @@ function GifvPlayer() {
         pause: function ($element) {
             var $img = $element.find('> img');
             $img.data('gifv-playing', false).attr('src', $img.data('gifv-poster'));
+            $element.removeClass('gifv-player-playing');
         },
         isPaused: function ($element) {
             return !$element.find('> img').data('gifv-playing');
@@ -50,25 +49,27 @@ function GifvPlayer() {
             }
 
             this.bindEvents();
+            this.addOverlay();
         },
         replaceVideoWithWrapper: function () {
-            $('video').replaceWith(function () {
+            $('.gifv-player video').replaceWith(function () {
                 var $video = $(this);
 
-                return $('<div class="gifv-player" />').append(
-                    $('<img />', {
-                        src: $video.attr('poster'),
-                        attr: {
-                            width: $video.attr('width'),
-                            height: $video.attr('height')
-                        },
-                        data: {
-                            'gifv-poster': $video.attr('poster'),
-                            'gifv-original': $video.data('gifv-original')
-                        }
-                    })
-                );
+                return $('<img />', {
+                    src: $video.attr('poster'),
+                    attr: {
+                        width: $video.attr('width'),
+                        height: $video.attr('height')
+                    },
+                    data: {
+                        'gifv-poster': $video.attr('poster'),
+                        'gifv-original': $video.data('gifv-original')
+                    }
+                });
             });
+        },
+        addOverlay: function () {
+            $('<div class="gifv-player-overlay" />').appendTo('.gifv-player');
         },
         destroy: function () {
             $(document).off('.gifv');
@@ -76,11 +77,11 @@ function GifvPlayer() {
         bindEvents: function () {
             var player = this;
 
-            $(document).on('click.gifv', this.controller.selector, function (event) {
+            $(document).on('click.gifv', '.gifv-player', function (event) {
                 event.preventDefault();
 
-                var $video = $(this);
-                player.playPause($video);
+                var $player = $(this);
+                player.playPause($player);
             });
         },
         playPause: function ($video) {
@@ -97,11 +98,13 @@ function GifvPlayer() {
             }
 
             $(document).data('gifv-current', $video);
+            $video.addClass('gifv-player-playing');
 
             this.controller.play($video);
         },
         pause: function ($video) {
             $(document).removeData('gifv-current');
+            $video.removeClass('gifv-player-playing');
 
             this.controller.pause($video);
         },
