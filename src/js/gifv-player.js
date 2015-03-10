@@ -1,17 +1,52 @@
 /*global window, jQuery */
 
-function GifvPlayer(options) {
+function GifvPlayer() {
     'use strict';
-    this.init(options);
+    this.init.apply(this, arguments);
 }
 
 (function (window, $) {
     'use strict';
 
+    var VideoController, GifController;
+
+    VideoController = {
+        play: function ($element) {
+            $element[0].play();
+        },
+        pause: function ($element) {
+            $element[0].pause();
+        },
+        isPaused: function ($element) {
+            return $element[0].paused;
+        }
+    };
+
+    GifController = {
+        play: function ($element) {
+            $element.find('> img').data('gifv-playing', true);
+            $element.find('> img').attr('src', $element.data('gifv-original'));
+        },
+        pause: function ($element) {
+            $element.find('> img')
+                .data('gifv-playing', false)
+                .attr('src', $element.attr('poster'));
+        },
+        isPaused: function ($element) {
+            return !$element.find('> img').data('gifv-playing');
+        }
+    };
+
     GifvPlayer.prototype = {
         init: function (options) {
             this.options = options || {};
-            this.hasVideoSupport = this._hasVideoSupport();
+
+            if (this.hasVideoSupport()) {
+                this.controller = VideoController;
+            } else {
+                this.controller = GifController;
+            }
+
             this.bindEvents();
         },
         destroy: function () {
@@ -28,18 +63,11 @@ function GifvPlayer(options) {
             });
         },
         playPause: function ($video) {
-            if (this.isPaused($video)) {
+            if (this.controller.isPaused($video)) {
                 this.play($video);
             } else {
                 this.pause($video);
             }
-        },
-        isPaused: function ($video) {
-            if (this.hasVideoSupport) {
-                return $video[0].paused;
-            }
-
-            return !$video.find('> img').data('gifv-playing');
         },
         play: function ($video) {
             var $currentVideo = $(document).data('gifv-current');
@@ -49,25 +77,14 @@ function GifvPlayer(options) {
 
             $(document).data('gifv-current', $video);
 
-            if (this.hasVideoSupport) {
-                $video[0].play();
-            } else {
-                $video.find('> img').data('gifv-playing', true);
-                $video.find('> img').attr('src', $video.data('gifv-original'));
-            }
+            this.controller.play($video);
         },
         pause: function ($video) {
             $(document).removeData('gifv-current');
 
-            if (this.hasVideoSupport) {
-                $video[0].pause();
-            } else {
-                $video.find('> img')
-                    .data('gifv-playing', false)
-                    .attr('src', $video.attr('poster'));
-            }
+            this.controller.pause($video);
         },
-        _hasVideoSupport: function () {
+        hasVideoSupport: function () {
             var testVideo = document.createElement('video');
             return (
                 !!testVideo.canPlayType && (

@@ -48,12 +48,14 @@ describe('GifvPlayer - Playback', function () {
             });
 
             it('pauses other videos', function () {
+                var controller = this.player.controller;
+
                 this.$secondVideo.click();
-                expect(this.player.isPaused(this.$secondVideo)).toBe(false);
+                expect(controller.isPaused(this.$secondVideo)).toBe(false);
 
                 this.$firstVideo.click();
-                expect(this.player.isPaused(this.$secondVideo)).toBe(true);
-                expect(this.player.isPaused(this.$firstVideo)).toBe(false);
+                expect(controller.isPaused(this.$secondVideo)).toBe(true);
+                expect(controller.isPaused(this.$firstVideo)).toBe(false);
             });
         });
 

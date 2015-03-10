@@ -30,35 +30,35 @@ describe('GifvPlayer - Detects', function () {
 
         it('general video', function () {
             this.player = new GifvPlayer();
-            expect(this.player.hasVideoSupport).toBe(true);
+            expect(this.player.hasVideoSupport()).toBe(true);
         });
 
         it('mp4 format', function () {
             this.supportedTypes = ['video/mp4'];
 
             this.player = new GifvPlayer();
-            expect(this.player.hasVideoSupport).toBe(true);
+            expect(this.player.hasVideoSupport()).toBe(true);
         });
 
         it('ogg format', function () {
             this.supportedTypes = ['video/ogg'];
 
             this.player = new GifvPlayer();
-            expect(this.player.hasVideoSupport).toBe(true);
+            expect(this.player.hasVideoSupport()).toBe(true);
         });
     });
 
     describe('no support', function () {
         it('for general video', function () {
             this.player = new GifvPlayer();
-            expect(this.player.hasVideoSupport).toBe(false);
+            expect(this.player.hasVideoSupport()).toBe(false);
         });
 
         it('for any format', function () {
             this.dummyVideo.canPlayType = function () { return ''; };
 
             this.player = new GifvPlayer();
-            expect(this.player.hasVideoSupport).toBe(false);
+            expect(this.player.hasVideoSupport()).toBe(false);
         });
     });
 });
