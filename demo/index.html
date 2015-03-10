@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>GifV Player Demo</title>
+    <style type="text/css">
+        body {
+            font-family: sans-serif;
+        }
+        .gifv-player {
+            float: left;
+        }
+        .gifv-player, video {
+            margin-right: 10px;
+        }
+    </style>
+</head>
+<body>
+    <h1>GifV Player Demo</h1>
+
+    <video preload="none" poster="sample-poster.png" data-gifv-original="sample-animated.gif">
+        <source type="video/mp4" src="sample-animated.mp4"></source>
+    </video>
+    <video preload="none" poster="sample-poster.png" data-gifv-original="sample-animated.gif">
+        <source type="video/mp4" src="sample-animated.mp4"></source>
+    </video>
+
+    <script src="../bower_components/jquery/jquery.min.js"></script>
+    <script src="../src/js/gifv-player.js"></script>
+    <script>
+    player = new GifvPlayer();
+    </script>
+</body>
+</html>
