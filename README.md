@@ -1,6 +1,6 @@
 # gifv-player
 
-Javascript library for playing gifv files with video browser support detection
+Javascript library for playing [gifv](http://imgur.com/blog/2014/10/09/introducing-gifv/) files with video browser support detection
 and fallback for pure gif.
 
 
