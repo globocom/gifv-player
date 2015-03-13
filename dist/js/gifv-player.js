@@ -1,4 +1,4 @@
-/*! GIFV Player - v0.0.1 - 2015-03-11
+/*! GIFV Player - v0.0.1 - 2015-03-13
 * Copyright (c) 2015 Globo.com; Licensed MIT */
 function GifvPlayer() {
     'use strict';
@@ -38,8 +38,10 @@ function GifvPlayer() {
     };
 
     GifvPlayer.prototype = {
+        selector: '.gifv-player',
         init: function (options) {
             this.options = options || {};
+            this.videoSelector = this.selector + ' video';
 
             if (this.hasVideoSupport()) {
                 this.controller = VideoController;
@@ -49,10 +51,11 @@ function GifvPlayer() {
             }
 
             this.bindEvents();
+            this.emulateLoop();
             this.addOverlay();
         },
         replaceVideoWithWrapper: function () {
-            $('.gifv-player video').replaceWith(function () {
+            $(this.videoSelector).replaceWith(function () {
                 var $video = $(this);
 
                 return $('<img />', {
@@ -69,7 +72,7 @@ function GifvPlayer() {
             });
         },
         addOverlay: function () {
-            $('<div class="gifv-player-overlay" />').appendTo('.gifv-player');
+            $('<div class="gifv-player-overlay" />').appendTo(this.selector);
         },
         destroy: function () {
             $(document).off('.gifv');
@@ -77,11 +80,22 @@ function GifvPlayer() {
         bindEvents: function () {
             var player = this;
 
-            $(document).on('click.gifv', '.gifv-player', function (event) {
+            $(document).on('click.gifv', this.selector, function (event) {
                 event.preventDefault();
 
                 var $player = $(this);
                 player.playPause($player);
+            });
+        },
+        emulateLoop: function () {
+            // Some browsers (Firefox?) can't reliably respect the loop attribute
+            // Here is a fix based on the following links:
+            // https://bugzilla.mozilla.org/show_bug.cgi?id=449157#c15
+            // http://forestmist.org/blog/html5-audio-loops/
+            $(this.videoSelector).removeAttr('loop').on('ended', function () {
+                var $this = $(this), $clone = $this.clone(true);
+                $this.replaceWith($clone);
+                $clone[0].play();
             });
         },
         playPause: function ($video) {

@@ -93,8 +93,7 @@ function GifvPlayer() {
             // https://bugzilla.mozilla.org/show_bug.cgi?id=449157#c15
             // http://forestmist.org/blog/html5-audio-loops/
             $(this.videoSelector).removeAttr('loop').on('ended', function () {
-                var $this = $(this);
-                var $clone = $this.clone(true);
+                var $this = $(this), $clone = $this.clone(true);
                 $this.replaceWith($clone);
                 $clone[0].play();
             });
