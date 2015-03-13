@@ -76,6 +76,7 @@ function GifvPlayer() {
         },
         destroy: function () {
             $(document).off('.gifv');
+            $(this.videoSelector).off('.gifv');
         },
         bindEvents: function () {
             var player = this;
@@ -92,7 +93,7 @@ function GifvPlayer() {
             // Here is a fix based on the following links:
             // https://bugzilla.mozilla.org/show_bug.cgi?id=449157#c15
             // http://forestmist.org/blog/html5-audio-loops/
-            $(this.videoSelector).removeAttr('loop').on('ended', function () {
+            $(this.videoSelector).removeAttr('loop').on('ended.gifv', function () {
                 var $this = $(this), $clone = $this.clone(true);
                 $this.replaceWith($clone);
                 $clone[0].play();
