@@ -51,7 +51,6 @@ function GifvPlayer() {
             }
 
             this.bindEvents();
-            this.emulateLoop();
             this.addOverlay();
         },
         replaceVideoWithWrapper: function () {
@@ -86,17 +85,6 @@ function GifvPlayer() {
 
                 var $player = $(this);
                 player.playPause($player);
-            });
-        },
-        emulateLoop: function () {
-            // Some browsers (Firefox?) can't reliably respect the loop attribute
-            // Here is a fix based on the following links:
-            // https://bugzilla.mozilla.org/show_bug.cgi?id=449157#c15
-            // http://forestmist.org/blog/html5-audio-loops/
-            $(this.videoSelector).removeAttr('loop').on('ended.gifv', function () {
-                var $this = $(this), $clone = $this.clone(true);
-                $this.replaceWith($clone);
-                $clone[0].play();
             });
         },
         playPause: function ($video) {
