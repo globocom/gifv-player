@@ -1,4 +1,4 @@
-/*! GIFV Player - v0.0.2 - 2015-03-16
+/*! GIFV Player - v0.0.3 - 2015-03-16
 * Copyright (c) 2015 Globo.com; Licensed MIT */
 function GifvPlayer() {
     'use strict';
