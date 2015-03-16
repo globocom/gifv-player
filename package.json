@@ -1,7 +1,7 @@
 {
   "name": "gifv-player",
   "title": "GIFV Player",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "description": "Javascript library for playing gifv files.",
   "main": "dist/gifv-player.js",
   "author": {
