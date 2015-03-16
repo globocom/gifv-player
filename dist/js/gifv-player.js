@@ -1,4 +1,4 @@
-/*! GIFV Player - v0.0.4 - 2015-03-16
+/*! GIFV Player - v0.0.5 - 2015-03-16
 * Copyright (c) 2015 Globo.com; Licensed MIT */
 function GifvPlayer() {
     'use strict';
@@ -51,7 +51,6 @@ function GifvPlayer() {
             }
 
             this.bindEvents();
-            this.emulateLoop();
             this.addOverlay();
         },
         replaceVideoWithWrapper: function () {
@@ -88,17 +87,6 @@ function GifvPlayer() {
                 player.playPause($player);
             });
         },
-        emulateLoop: function () {
-            // Some browsers (Firefox?) can't reliably respect the loop attribute
-            // Here is a fix based on the following links:
-            // https://bugzilla.mozilla.org/show_bug.cgi?id=449157#c15
-            // http://forestmist.org/blog/html5-audio-loops/
-            $(this.videoSelector).removeAttr('loop').on('ended.gifv', function () {
-                var $this = $(this), $clone = $this.clone(true);
-                $this.replaceWith($clone);
-                $clone[0].play();
-            });
-        },
         playPause: function ($video) {
             if (this.controller.isPaused($video)) {
                 this.play($video);
@@ -127,7 +115,7 @@ function GifvPlayer() {
             var testVideo = document.createElement('video');
             return (
                 !!testVideo.canPlayType && (
-                    (testVideo.canPlayType('video/mp4') !== '') || (testVideo.canPlayType('video/ogg') !== '')
+                    (testVideo.canPlayType('video/mp4') !== '') || (testVideo.canPlayType('video/webm') !== '')
                 )
             );
         }
