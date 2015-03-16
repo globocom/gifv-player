@@ -127,7 +127,7 @@ function GifvPlayer() {
             var testVideo = document.createElement('video');
             return (
                 !!testVideo.canPlayType && (
-                    (testVideo.canPlayType('video/mp4') !== '') || (testVideo.canPlayType('video/ogg') !== '')
+                    (testVideo.canPlayType('video/mp4') !== '') || (testVideo.canPlayType('video/webm') !== '')
                 )
             );
         }

@@ -7,7 +7,7 @@ describe('GifvPlayer - Detects', function () {
         this.dummyVideo = document.createElement('dummy');
         this.supportedTypes = [
             'video/mp4',
-            'video/ogg'
+            'video/webm'
         ];
 
         spyOn(document, 'createElement').andReturn(this.dummyVideo);
@@ -40,8 +40,8 @@ describe('GifvPlayer - Detects', function () {
             expect(this.player.hasVideoSupport()).toBe(true);
         });
 
-        it('ogg format', function () {
-            this.supportedTypes = ['video/ogg'];
+        it('webm format', function () {
+            this.supportedTypes = ['video/webm'];
 
             this.player = new GifvPlayer();
             expect(this.player.hasVideoSupport()).toBe(true);
