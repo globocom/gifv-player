@@ -1,6 +1,6 @@
 setup:
 	@npm install
-	@bower install
+	@node_modules/bower/bin/bower install
 
 test:
 	@grunt jasmine

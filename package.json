@@ -41,7 +41,8 @@
     "grunt-bump": "~0.0.14",
     "grunt-webfont": "~0.4.4",
     "grunt-jslint": "~1.1.12",
-    "grunt-coveralls": "~1.0.0"
+    "grunt-coveralls": "~1.0.0",
+    "bower": ""
   },
   "scripts": {
     "test": "grunt ci"
