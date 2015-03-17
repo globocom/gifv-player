@@ -1,3 +1,6 @@
+[![Travis Build Status](https://travis-ci.org/globocom/gifv-player.svg)](https://travis-ci.org/globocom/gifv-player)
+[![Coverage Status](https://img.shields.io/coveralls/globocom/gifv-player.svg)](https://coveralls.io/r/globocom/gifv-player)
+
 # gifv-player
 
 Javascript library for playing [gifv](http://imgur.com/blog/2014/10/09/introducing-gifv/) files with video browser support detection
