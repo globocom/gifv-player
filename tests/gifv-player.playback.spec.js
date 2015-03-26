@@ -46,6 +46,11 @@ describe('GifvPlayer - Playback', function () {
                 expect(this.$firstVideo.find('.gifv-player-overlay').length).toEqual(1);
             });
 
+            it('works with touch-start event', function () {
+                this.$firstVideo.trigger('touchstart');
+                expect(this.$firstVideo.hasClass('gifv-player-playing')).toEqual(true);
+            });
+
             it('adds `playing` class', function () {
                 this.$firstVideo.click();
                 expect(this.$firstVideo.hasClass('gifv-player-playing')).toEqual(true);
@@ -72,6 +77,12 @@ describe('GifvPlayer - Playback', function () {
             it('removes `playing` class', function () {
                 this.$firstVideo.click();
                 this.$firstVideo.click();
+                expect(this.$firstVideo.hasClass('gifv-player-playing')).toEqual(false);
+            });
+
+            it('works with touch-start event', function () {
+                this.$firstVideo.trigger('touchstart');
+                this.$firstVideo.trigger('touchstart');
                 expect(this.$firstVideo.hasClass('gifv-player-playing')).toEqual(false);
             });
 

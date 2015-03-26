@@ -80,7 +80,7 @@ function GifvPlayer() {
         bindEvents: function () {
             var player = this;
 
-            $(document).on('click.gifv', this.selector, function (event) {
+            $(document).on('click.gifv touchstart.gifv', this.selector, function (event) {
                 event.preventDefault();
 
                 var $player = $(this);
