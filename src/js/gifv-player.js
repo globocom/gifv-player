@@ -12,28 +12,30 @@ function GifvPlayer() {
 
     VideoController = {
         play: function ($element) {
-            $element.find('> video')[0].play();
+            var $tmp, $child = $element.find('> video, > img');
+
+            if ($child.is('img')) {
+                $tmp = $child.data('gifv-video');
+                $child.replaceWith($tmp);
+                $child = $tmp;
+            }
+
+            $child[0].play();
         },
         pause: function ($element) {
             $element.find('> video')[0].pause();
-        },
-        isPaused: function ($element) {
-            return $element.find('> video')[0].paused;
         }
     };
 
     GifController = {
         play: function ($element) {
             var $img = $element.find('> img');
-            $img.data('gifv-playing', true).attr('src', $img.data('gifv-original'));
+            $img.attr('src', $img.data('gifv-original'));
         },
         pause: function ($element) {
             var $img = $element.find('> img');
-            $img.data('gifv-playing', false).attr('src', $img.data('gifv-poster'));
+            $img.attr('src', $img.data('gifv-poster'));
             $element.removeClass('gifv-player-playing');
-        },
-        isPaused: function ($element) {
-            return !$element.find('> img').data('gifv-playing');
         }
     };
 
@@ -47,12 +49,13 @@ function GifvPlayer() {
                 this.controller = VideoController;
             } else {
                 this.controller = GifController;
-                this.replaceVideoWithWrapper();
             }
+
+            this.replaceVideoWithPoster();
 
             this.bindEvents();
         },
-        replaceVideoWithWrapper: function () {
+        replaceVideoWithPoster: function () {
             $(this.videoSelector).replaceWith(function () {
                 var $video = $(this);
 
@@ -64,7 +67,8 @@ function GifvPlayer() {
                     },
                     data: {
                         'gifv-poster': $video.attr('poster'),
-                        'gifv-original': $video.data('gifv-original')
+                        'gifv-original': $video.data('gifv-original'),
+                        'gifv-video': $video
                     }
                 });
             });
@@ -84,7 +88,7 @@ function GifvPlayer() {
             });
         },
         playPause: function ($video) {
-            if (this.controller.isPaused($video)) {
+            if (this.isPaused($video)) {
                 this.play($video);
             } else {
                 this.pause($video);
@@ -106,6 +110,9 @@ function GifvPlayer() {
             $video.removeClass('gifv-player-playing');
 
             this.controller.pause($video);
+        },
+        isPaused: function ($video) {
+            return !$video.hasClass('gifv-player-playing');
         },
         hasVideoSupport: function () {
             var testVideo = document.createElement('video');

@@ -42,10 +42,6 @@ describe('GifvPlayer - Playback', function () {
         });
 
         describe('on play', function () {
-            it('adds overlay for styling', function () {
-                expect(this.$firstVideo.find('.gifv-player-overlay').length).toEqual(1);
-            });
-
             it('works with touch-start event', function () {
                 this.$firstVideo.trigger('touchstart');
                 expect(this.$firstVideo.hasClass('gifv-player-playing')).toEqual(true);
@@ -62,14 +58,12 @@ describe('GifvPlayer - Playback', function () {
             });
 
             it('pauses other videos', function () {
-                var controller = this.player.controller;
-
                 this.$secondVideo.click();
-                expect(controller.isPaused(this.$secondVideo)).toBe(false);
+                expect(this.player.isPaused(this.$secondVideo)).toBe(false);
 
                 this.$firstVideo.click();
-                expect(controller.isPaused(this.$secondVideo)).toBe(true);
-                expect(controller.isPaused(this.$firstVideo)).toBe(false);
+                expect(this.player.isPaused(this.$secondVideo)).toBe(true);
+                expect(this.player.isPaused(this.$firstVideo)).toBe(false);
             });
         });
 
@@ -101,8 +95,8 @@ describe('GifvPlayer - Playback', function () {
                 FakeVideo.injectPlaybackMethods(this);
             });
 
-            this.$firstVideo = $('video').eq(0);
-            this.$secondVideo = $('video').eq(1);
+            this.$firstVideo = $('.gifv-player').eq(0);
+            this.$secondVideo = $('.gifv-player').eq(1);
 
             this.simulateEnabledVideoSupport();
             this.player = new GifvPlayer();
@@ -111,16 +105,16 @@ describe('GifvPlayer - Playback', function () {
         describe('on play', function () {
             it('plays video', function () {
                 this.$firstVideo.click();
-                expect(this.$firstVideo[0].paused).toBe(false);
+                expect(this.$firstVideo.find('video')[0].paused).toBe(false);
             });
 
             it('pauses other videos', function () {
                 this.$secondVideo.click();
-                expect(this.$secondVideo[0].paused).toBe(false);
+                expect(this.$secondVideo.find('video')[0].paused).toBe(false);
 
                 this.$firstVideo.click();
-                expect(this.$firstVideo[0].paused).toBe(false);
-                expect(this.$secondVideo[0].paused).toBe(true);
+                expect(this.$firstVideo.find('video')[0].paused).toBe(false);
+                expect(this.$secondVideo.find('video')[0].paused).toBe(true);
             });
         });
 
@@ -128,7 +122,7 @@ describe('GifvPlayer - Playback', function () {
             it('pauses video', function () {
                 this.$firstVideo.click();
                 this.$firstVideo.click();
-                expect(this.$firstVideo[0].paused).toBe(true);
+                expect(this.$firstVideo.find('video')[0].paused).toBe(true);
             });
         });
     });
