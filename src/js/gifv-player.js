@@ -51,7 +51,6 @@ function GifvPlayer() {
             }
 
             this.bindEvents();
-            this.addOverlay();
         },
         replaceVideoWithWrapper: function () {
             $(this.videoSelector).replaceWith(function () {
@@ -69,9 +68,6 @@ function GifvPlayer() {
                     }
                 });
             });
-        },
-        addOverlay: function () {
-            $('<div class="gifv-player-overlay" />').appendTo(this.selector);
         },
         destroy: function () {
             $(document).off('.gifv');
