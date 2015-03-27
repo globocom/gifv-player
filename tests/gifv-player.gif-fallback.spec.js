@@ -5,9 +5,10 @@ describe('GifvPlayer - Gif Fallback', function () {
 
     var fixture = [
         '<div class="gifv-player">',
-        '<video poster="cover.gif" data-gifv-original="original.gif" width="200" height="100">',
+        '<video data-gifv-original="original.gif" width="200" height="100">',
         '<source src="original.mp4" type="video/mp4" />',
         '</video>',
+        '<img src="cover.gif" data-gifv-original="original.gif" width="200" height="100">',
         '</div>'
     ].join('');
 
@@ -27,11 +28,6 @@ describe('GifvPlayer - Gif Fallback', function () {
     afterEach(function () {
         this.player.destroy();
         this.$fixture.remove();
-    });
-
-    it('replaces video tag with wrapper', function () {
-        expect(this.$fixture.find('video').length).toBe(0);
-        expect(this.$wrapper.length).toBe(1);
     });
 
     it('copies video poster to image src', function () {

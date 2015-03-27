@@ -12,15 +12,7 @@ function GifvPlayer() {
 
     VideoController = {
         play: function ($element) {
-            var $tmp, $child = $element.find('> video, > img');
-
-            if ($child.is('img')) {
-                $tmp = $child.data('gifv-video');
-                $child.replaceWith($tmp);
-                $child = $tmp;
-            }
-
-            $child[0].play();
+            $element.find('video')[0].play();
         },
         pause: function ($element) {
             $element.find('> video')[0].pause();
@@ -35,7 +27,6 @@ function GifvPlayer() {
         pause: function ($element) {
             var $img = $element.find('> img');
             $img.attr('src', $img.data('gifv-poster'));
-            $element.removeClass('gifv-player-playing');
         }
     };
 
@@ -49,33 +40,20 @@ function GifvPlayer() {
                 this.controller = VideoController;
             } else {
                 this.controller = GifController;
+                this.storeOriginalSource();
             }
 
-            this.replaceVideoWithPoster();
-
             this.bindEvents();
-        },
-        replaceVideoWithPoster: function () {
-            $(this.videoSelector).replaceWith(function () {
-                var $video = $(this);
-
-                return $('<img />', {
-                    src: $video.attr('poster'),
-                    attr: {
-                        width: $video.attr('width'),
-                        height: $video.attr('height')
-                    },
-                    data: {
-                        'gifv-poster': $video.attr('poster'),
-                        'gifv-original': $video.data('gifv-original'),
-                        'gifv-video': $video
-                    }
-                });
-            });
         },
         destroy: function () {
             $(document).off('.gifv');
             $(this.videoSelector).off('.gifv');
+        },
+        storeOriginalSource: function () {
+            $('img', this.selector).each(function () {
+                var $this = $(this);
+                $this.data('gifv-poster', $this.attr('src'));
+            });
         },
         bindEvents: function () {
             var player = this;
@@ -85,6 +63,10 @@ function GifvPlayer() {
 
                 var $player = $(this);
                 player.playPause($player);
+            });
+
+            $(this.videoSelector).on('loadeddata.gifv', function () {
+                $(this).parents(player.selector).eq(0).find('img').css('visibility', 'hidden');
             });
         },
         playPause: function ($video) {

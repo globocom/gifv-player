@@ -5,19 +5,19 @@ describe('GifvPlayer - Playback', function () {
 
     var fixture = [
         '<div class="gifv-player">',
-        '<video poster="cover.gif" data-gifv-original="original.gif" preload="none" loop="true">',
+        '<video preload="none" loop="true">',
         '<source src="original.mp4" type="video/mp4" />',
         '<source src="original.ogg" type="video/ogg" />',
-        '<img src="cover.gif" />',
         '</video>',
+        '<img src="cover.gif" data-gifv-original="original.gif" />',
         '</div>',
 
         '<div class="gifv-player">',
-        '<video poster="cover2.gif" data-gifv-original="original2.gif" preload="none" loop="true">',
+        '<video preload="none" loop="true">',
         '<source src="original2.mp4" type="video/mp4" />',
         '<source src="original2.ogg" type="video/ogg" />',
-        '<img src="cover2.gif" />',
         '</video>',
+        '<img src="cover2.gif" data-gifv-original="original2.gif" />',
         '</div>'
     ].join('');
 
