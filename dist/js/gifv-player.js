@@ -1,4 +1,4 @@
-/*! GIFV Player - v0.0.5 - 2015-03-16
+/*! GIFV Player - v0.0.5 - 2015-03-30
 * Copyright (c) 2015 Globo.com; Licensed MIT */
 function GifvPlayer() {
     'use strict';
@@ -39,8 +39,12 @@ function GifvPlayer() {
 
     GifvPlayer.prototype = {
         selector: '.gifv-player',
+        options: {
+            autostart: true
+        },
         init: function (options) {
-            this.options = options || {};
+            $.extend(this.options, options);
+
             this.videoSelector = this.selector + ' video';
 
             if (this.hasVideoSupport()) {
@@ -86,6 +90,15 @@ function GifvPlayer() {
                 var $player = $(this);
                 player.playPause($player);
             });
+
+            if (this.options.autostart) {
+                $(document).on('mouseenter.gifv', this.selector, function (event) {
+                    event.preventDefault();
+
+                    var $player = $(this);
+                    player.play($player);
+                });
+            }
         },
         playPause: function ($video) {
             if (this.controller.isPaused($video)) {

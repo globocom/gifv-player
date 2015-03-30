@@ -68,6 +68,30 @@ describe('GifvPlayer - Playback', function () {
             });
         });
 
+        describe('with autostart', function () {
+            describe('on mouseenter', function () {
+                it('play video', function () {
+                    var controller = this.player.controller;
+                    this.$firstVideo.trigger('mouseover');
+
+                    expect(controller.isPaused(this.$firstVideo)).toBe(false);
+                    expect(controller.isPaused(this.$secondVideo)).toBe(true);
+                });
+
+                it('pauses other videos', function () {
+                    var controller = this.player.controller;
+
+                    this.$secondVideo.click();
+
+                    expect(controller.isPaused(this.$secondVideo)).toBe(false);
+
+                    this.$firstVideo.trigger('mouseover');
+                    expect(controller.isPaused(this.$secondVideo)).toBe(true);
+                    expect(controller.isPaused(this.$firstVideo)).toBe(false);
+                });
+            });
+        });
+
         describe('on pause', function () {
             it('removes `playing` class', function () {
                 this.$firstVideo.click();
@@ -84,17 +108,49 @@ describe('GifvPlayer - Playback', function () {
         });
     });
 
+    describe('of gif file', function () {
+        beforeEach(function () {
+            this.simulateDisabledVideoSupport();
+
+            this.player = new GifvPlayer({ autostart: false });
+            this.$firstVideo = $('.gifv-player').eq(0);
+            this.$secondVideo = $('.gifv-player').eq(1);
+        });
+
+        describe('without autostart', function () {
+            describe('on mouseenter', function () {
+                it('don`t play video', function () {
+                    var controller = this.player.controller;
+                    this.$firstVideo.trigger('mouseover');
+
+                    expect(controller.isPaused(this.$firstVideo)).toBe(true);
+                });
+
+                it('don`t pauses other videos', function () {
+                    var controller = this.player.controller;
+
+                    this.$secondVideo.click();
+                    expect(controller.isPaused(this.$secondVideo)).toBe(false);
+
+                    this.$firstVideo.trigger('mouseover');
+                    expect(controller.isPaused(this.$secondVideo)).toBe(false);
+                    expect(controller.isPaused(this.$firstVideo)).toBe(true);
+                });
+            });
+        });
+    });
+
     describe('of video file', function () {
         beforeEach(function () {
             $('video').each(function () {
                 FakeVideo.injectPlaybackMethods(this);
             });
 
-            this.$firstVideo = $('video').eq(0);
-            this.$secondVideo = $('video').eq(1);
-
             this.simulateEnabledVideoSupport();
             this.player = new GifvPlayer();
+
+            this.$firstVideo = $('video').eq(0);
+            this.$secondVideo = $('video').eq(1);
         });
 
         describe('on play', function () {
