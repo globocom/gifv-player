@@ -1,4 +1,4 @@
-/*! GIFV Player - v0.0.6 - 2015-03-26
+/*! GIFV Player - v0.0.7 - 2015-03-30
 * Copyright (c) 2015 Globo.com; Licensed MIT */
 function GifvPlayer() {
     'use strict';
@@ -12,10 +12,12 @@ function GifvPlayer() {
 
     VideoController = {
         play: function ($element) {
-            $element.find('> video')[0].play();
+            var $video = $element.find('video');
+            $video[0].play();
         },
         pause: function ($element) {
-            $element.find('> video')[0].pause();
+            var $video = $element.find('video');
+            $video[0].pause();
         },
         isPaused: function ($element) {
             return $element.find('> video')[0].paused;
@@ -24,16 +26,15 @@ function GifvPlayer() {
 
     GifController = {
         play: function ($element) {
-            var $img = $element.find('> img');
-            $img.data('gifv-playing', true).attr('src', $img.data('gifv-original'));
+            var $img = $element.find('img');
+            $img.attr('src', $img.data('gifv-original'));
         },
         pause: function ($element) {
-            var $img = $element.find('> img');
-            $img.data('gifv-playing', false).attr('src', $img.data('gifv-poster'));
-            $element.removeClass('gifv-player-playing');
+            var $img = $element.find('img');
+            $img.attr('src', $img.data('gifv-poster'));
         },
         isPaused: function ($element) {
-            return !$element.find('> img').data('gifv-playing');
+            return !$element.hasClass('gifv-player-playing');
         }
     };
 
@@ -47,35 +48,24 @@ function GifvPlayer() {
                 this.controller = VideoController;
             } else {
                 this.controller = GifController;
-                this.replaceVideoWithWrapper();
+                this.storeOriginalSource();
             }
 
             this.bindEvents();
-            this.addOverlay();
-        },
-        replaceVideoWithWrapper: function () {
-            $(this.videoSelector).replaceWith(function () {
-                var $video = $(this);
-
-                return $('<img />', {
-                    src: $video.attr('poster'),
-                    attr: {
-                        width: $video.attr('width'),
-                        height: $video.attr('height')
-                    },
-                    data: {
-                        'gifv-poster': $video.attr('poster'),
-                        'gifv-original': $video.data('gifv-original')
-                    }
-                });
-            });
-        },
-        addOverlay: function () {
-            $('<div class="gifv-player-overlay" />').appendTo(this.selector);
+            this.hideVideoElements();
         },
         destroy: function () {
             $(document).off('.gifv');
             $(this.videoSelector).off('.gifv');
+        },
+        hideVideoElements: function () {
+            $(this.videoSelector).hide();
+        },
+        storeOriginalSource: function () {
+            $('img', this.selector).each(function () {
+                var $this = $(this);
+                $this.data('gifv-poster', $this.attr('src'));
+            });
         },
         bindEvents: function () {
             var player = this;
@@ -85,10 +75,32 @@ function GifvPlayer() {
 
                 var $player = $(this);
                 player.playPause($player);
+
+                return true;
+            });
+
+            $(this.videoSelector).on('loadeddata.gifv', function () {
+                player.hidePoster($(this).parents(player.selector));
+            });
+
+            $(this.videoSelector).on('webkitendfullscreen.gifv', function () {
+                var $video = $(this).parents(player.selector);
+                // Show poster to avoid the native iOS play icon
+                player.showPoster($video);
+                // Hide the video to avoid click in the image being captured
+                $video.find('video').hide();
+                // Update player state after "OK" button on iOS Safari
+                player.pause($video);
             });
         },
+        showPoster: function ($video) {
+            $video.eq(0).find('img').css('visibility', 'visible');
+        },
+        hidePoster: function ($video) {
+            $video.eq(0).find('img').css('visibility', 'hidden');
+        },
         playPause: function ($video) {
-            if (this.controller.isPaused($video)) {
+            if (this.isPaused($video)) {
                 this.play($video);
             } else {
                 this.pause($video);
@@ -102,6 +114,7 @@ function GifvPlayer() {
 
             $(document).data('gifv-current', $video);
             $video.addClass('gifv-player-playing');
+            $video.find('video').show();
 
             this.controller.play($video);
         },
@@ -110,6 +123,9 @@ function GifvPlayer() {
             $video.removeClass('gifv-player-playing');
 
             this.controller.pause($video);
+        },
+        isPaused: function ($element) {
+            return this.controller.isPaused($element);
         },
         hasVideoSupport: function () {
             var testVideo = document.createElement('video');
