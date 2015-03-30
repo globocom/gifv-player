@@ -39,8 +39,12 @@ function GifvPlayer() {
 
     GifvPlayer.prototype = {
         selector: '.gifv-player',
+        options: {
+            autostart: true
+        },
         init: function (options) {
-            this.options = options || {};
+            $.extend(this.options, options);
+
             this.videoSelector = this.selector + ' video';
 
             if (this.hasVideoSupport()) {
@@ -86,6 +90,15 @@ function GifvPlayer() {
                 var $player = $(this);
                 player.playPause($player);
             });
+
+            if (this.options.autostart) {
+                $(document).on('mouseenter.gifv', this.selector, function (event) {
+                    event.preventDefault();
+
+                    var $player = $(this);
+                    player.play($player);
+                });
+            }
         },
         playPause: function ($video) {
             if (this.controller.isPaused($video)) {
