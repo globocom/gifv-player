@@ -12,10 +12,12 @@ function GifvPlayer() {
 
     VideoController = {
         play: function ($element) {
-            $element.find('video')[0].play();
+            var $video = $element.find('video');
+            $video[0].play();
         },
         pause: function ($element) {
-            $element.find('> video')[0].pause();
+            var $video = $element.find('video');
+            $video[0].pause();
         },
         isPaused: function ($element) {
             return $element.find('> video')[0].paused;
@@ -24,11 +26,11 @@ function GifvPlayer() {
 
     GifController = {
         play: function ($element) {
-            var $img = $element.find('> img');
+            var $img = $element.find('img');
             $img.attr('src', $img.data('gifv-original'));
         },
         pause: function ($element) {
-            var $img = $element.find('> img');
+            var $img = $element.find('img');
             $img.attr('src', $img.data('gifv-poster'));
         },
         isPaused: function ($element) {
@@ -50,10 +52,14 @@ function GifvPlayer() {
             }
 
             this.bindEvents();
+            this.hideVideoElements();
         },
         destroy: function () {
             $(document).off('.gifv');
             $(this.videoSelector).off('.gifv');
+        },
+        hideVideoElements: function () {
+            $(this.videoSelector).hide();
         },
         storeOriginalSource: function () {
             $('img', this.selector).each(function () {
@@ -69,11 +75,29 @@ function GifvPlayer() {
 
                 var $player = $(this);
                 player.playPause($player);
+
+                return true;
             });
 
             $(this.videoSelector).on('loadeddata.gifv', function () {
-                $(this).parents(player.selector).eq(0).find('img').css('visibility', 'hidden');
+                player.hidePoster($(this).parents(player.selector));
             });
+
+            $(this.videoSelector).on('webkitendfullscreen.gifv', function () {
+                var $video = $(this).parents(player.selector);
+                // Show poster to avoid the native iOS play icon
+                player.showPoster($video);
+                // Hide the video to avoid click in the image being captured
+                $video.find('video').hide();
+                // Update player state after "OK" button on iOS Safari
+                player.pause($video);
+            });
+        },
+        showPoster: function ($video) {
+            $video.eq(0).find('img').css('visibility', 'visible');
+        },
+        hidePoster: function ($video) {
+            $video.eq(0).find('img').css('visibility', 'hidden');
         },
         playPause: function ($video) {
             if (this.isPaused($video)) {
@@ -90,6 +114,7 @@ function GifvPlayer() {
 
             $(document).data('gifv-current', $video);
             $video.addClass('gifv-player-playing');
+            $video.find('video').show();
 
             this.controller.play($video);
         },

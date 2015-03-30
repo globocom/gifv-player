@@ -1,6 +1,7 @@
 .gifv-player {
     display: inline-block;
     position: relative;
+    cursor: pointer;
 }
     .gifv-player-overlay:after {
         content: "GIF";

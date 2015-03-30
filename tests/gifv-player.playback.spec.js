@@ -42,13 +42,13 @@ describe('GifvPlayer - Playback', function () {
         });
 
         describe('on play', function () {
-            it('works with touch-start event', function () {
-                this.$firstVideo.trigger('touchstart');
+            it('updates player `playing` state', function () {
+                this.$firstVideo.click();
                 expect(this.$firstVideo.hasClass('gifv-player-playing')).toEqual(true);
             });
 
-            it('adds `playing` class', function () {
-                this.$firstVideo.click();
+            it('works with touch-start event', function () {
+                this.$firstVideo.trigger('touchstart');
                 expect(this.$firstVideo.hasClass('gifv-player-playing')).toEqual(true);
             });
 
@@ -102,10 +102,19 @@ describe('GifvPlayer - Playback', function () {
             this.player = new GifvPlayer();
         });
 
+        it('initially hides video elements', function () {
+            expect(this.$firstVideo.find('video').css('display')).toEqual('none');
+        });
+
         describe('on play', function () {
             it('plays video', function () {
                 this.$firstVideo.click();
                 expect(this.$firstVideo.find('video')[0].paused).toBe(false);
+            });
+
+            it('updates player `playing` state', function () {
+                this.$firstVideo.click();
+                expect(this.$firstVideo.hasClass('gifv-player-playing')).toEqual(true);
             });
 
             it('pauses other videos', function () {
@@ -116,6 +125,14 @@ describe('GifvPlayer - Playback', function () {
                 expect(this.$firstVideo.find('video')[0].paused).toBe(false);
                 expect(this.$secondVideo.find('video')[0].paused).toBe(true);
             });
+
+            it('hides poster when data is loaded', function () {
+                var $video = this.$firstVideo.find('video'),
+                    $poster = this.$firstVideo.find('img');
+
+                $video.trigger('loadeddata');
+                expect($poster.css('visibility')).toEqual('hidden');
+            });
         });
 
         describe('on pause', function () {
@@ -123,6 +140,30 @@ describe('GifvPlayer - Playback', function () {
                 this.$firstVideo.click();
                 this.$firstVideo.click();
                 expect(this.$firstVideo.find('video')[0].paused).toBe(true);
+            });
+
+            describe('after exiting fullscreen on webkit', function () {
+                beforeEach(function () {
+                    this.$video = this.$firstVideo.find('video');
+                    this.$poster = this.$firstVideo.find('img');
+
+                    this.$poster.hide();
+
+                    this.$video.trigger('webkitendfullscreen');
+                });
+
+                it('shows poster', function () {
+                    expect(this.$poster.css('visibility')).toEqual('visible');
+                });
+
+                it('hides the video element', function () {
+                    expect(this.$poster.css('display')).toEqual('none');
+                });
+
+                it('updates player `playing` state', function () {
+                    this.$firstVideo.click();
+                    expect(this.$firstVideo.hasClass('gifv-player-playing')).toEqual(true);
+                });
             });
         });
     });
