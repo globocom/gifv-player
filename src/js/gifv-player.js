@@ -16,6 +16,9 @@ function GifvPlayer() {
         },
         pause: function ($element) {
             $element.find('> video')[0].pause();
+        },
+        isPaused: function ($element) {
+            return $element.find('> video')[0].paused;
         }
     };
 
@@ -27,6 +30,9 @@ function GifvPlayer() {
         pause: function ($element) {
             var $img = $element.find('> img');
             $img.attr('src', $img.data('gifv-poster'));
+        },
+        isPaused: function ($element) {
+            return !$element.hasClass('gifv-player-playing');
         }
     };
 
@@ -93,8 +99,8 @@ function GifvPlayer() {
 
             this.controller.pause($video);
         },
-        isPaused: function ($video) {
-            return !$video.hasClass('gifv-player-playing');
+        isPaused: function ($element) {
+            return this.controller.isPaused($element);
         },
         hasVideoSupport: function () {
             var testVideo = document.createElement('video');
