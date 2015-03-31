@@ -11,7 +11,10 @@ run:
 build:
 	@grunt default
 
-release:
+gh-pages:
+	@git push origin master:gh-pages
+
+release: gh-pages
 	@grunt bump-only
 	@make build
 	@grunt bump-commit
