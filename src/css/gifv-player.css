@@ -5,20 +5,24 @@
 }
     .gifv-player-overlay:after {
         content: "GIF";
-        background: rgba(0, 0, 0, .8);
+        text-align: center;
+        font-size: 36px;
+        line-height: 70px;
+        letter-spacing: 2px;
         color: #fff;
+
+        background: rgba(0, 0, 0, .85);
         border: 2px solid;
+        border-radius: 8px;
+
+        width: 116px;
+        height: 66px;
+
         position: absolute;
         top: 50%;
         left: 50%;
-        border-radius: 5px;
-        font-weight: bold;
-        font-size: 36px;
-        width: 116px;
-        height: 66px;
-        line-height: 70px;
-        text-align: center;
         margin: -34px 0 0 -60px;
+
     }
     .gifv-player-playing .gifv-player-overlay {
         display: none;
