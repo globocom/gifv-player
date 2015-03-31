@@ -30,6 +30,7 @@
 
     .gifv-player img {
         position: relative;
+        float: left;
     }
     .gifv-player-playing video {
         max-width: 100%;
