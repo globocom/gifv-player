@@ -47,11 +47,6 @@ describe('GifvPlayer - Playback', function () {
                 expect(this.$firstVideo.hasClass('gifv-player-playing')).toEqual(true);
             });
 
-            it('works with touch-start event', function () {
-                this.$firstVideo.trigger('touchstart');
-                expect(this.$firstVideo.hasClass('gifv-player-playing')).toEqual(true);
-            });
-
             it('swaps cover with original image', function () {
                 this.$firstVideo.click();
                 expect(this.$firstVideo.find('> img').attr('src')).toEqual('original.gif');
@@ -71,12 +66,6 @@ describe('GifvPlayer - Playback', function () {
             it('removes `playing` class', function () {
                 this.$firstVideo.click();
                 this.$firstVideo.click();
-                expect(this.$firstVideo.hasClass('gifv-player-playing')).toEqual(false);
-            });
-
-            it('works with touch-start event', function () {
-                this.$firstVideo.trigger('touchstart');
-                this.$firstVideo.trigger('touchstart');
                 expect(this.$firstVideo.hasClass('gifv-player-playing')).toEqual(false);
             });
 
