@@ -1,4 +1,4 @@
-/*! GIFV Player - v0.0.9 - 2015-03-31
+/*! GIFV Player - v0.1.0 - 2015-04-02
 * Copyright (c) 2015 Globo.com; Licensed MIT */
 function GifvPlayer() {
     'use strict';
@@ -70,7 +70,7 @@ function GifvPlayer() {
         bindEvents: function () {
             var player = this;
 
-            $(document).on('click.gifv touchstart.gifv', this.selector, function (event) {
+            $(document).on('click.gifv', this.selector, function (event) {
                 event.preventDefault();
 
                 var $player = $(this);
