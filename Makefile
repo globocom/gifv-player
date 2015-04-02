@@ -1,3 +1,5 @@
+BUMP ?= 'patch'
+
 setup:
 	@npm install
 	@node_modules/bower/bin/bower install
@@ -14,7 +16,17 @@ build:
 gh-pages:
 	@git push origin master:gh-pages
 
-release: gh-pages
-	@grunt bump-only
+patch:
+	@$(eval BUMP := 'patch')
+
+minor:
+	@$(eval BUMP := 'minor')
+
+major:
+	@$(eval BUMP := 'major')
+
+release:
+	@grunt bump-only:${BUMP}
 	@make build
 	@grunt bump-commit
+	@$(MAKE) gh-pages
