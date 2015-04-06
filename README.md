@@ -19,9 +19,9 @@ Include the `dist/js/gifv-player.min.js` script in the page and initialize.
 ```
 
 The script will search the page for `.gifv-player` wrappers containing a `video`
-tag with the available video formats in `source` tags, a `poster` attribute for
+tag with the available video formats in `source` tags, a `img` tag for
 the video thumbnail and the original gif URL in the `data-gifv-original`
-attribute as a fallback.
+attribute as a fallback for browsers that don't support video.
 
 ```html
 <div class="gifv-player">
