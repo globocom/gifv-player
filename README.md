@@ -25,10 +25,13 @@ attribute as a fallback.
 
 ```html
 <div class="gifv-player">
-    <video poster="sample-poster.png" data-gifv-original="sample-animated.gif" preload="none" loop="true">
-        <source type="video/mp4" src="sample-animated.mp4" />
+    <video preload="none" loop="loop" width="446" height="252">
         <source type="video/webm" src="sample-animated.webm" />
+        <source type="video/mp4" src="sample-animated.mp4" />
     </video>
+    <img src="sample-poster.png" width="446" height="252"
+        data-gifv-original="sample-animated.gif" />
+    <div class="gifv-player-overlay"></div>
 </div>
 ```
 
@@ -36,7 +39,7 @@ attribute as a fallback.
 ## Gif conversion to video
 
 `gifv` isn't really an image or video format, it is a technique
-[introduced by imgur][gifv] to reduce bandwidth usage by converting animated 
+[introduced by imgur][gifv] to reduce bandwidth usage by converting animated
 GIF files to browser supported video formats.
 
 [Thumbor][Thumbor] is a great companion to `gifv-player` as it allows
