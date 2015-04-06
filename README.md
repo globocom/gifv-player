@@ -65,7 +65,7 @@ On some versions of Safari on iOs, tapping on the video may not trigger a click.
 **Solution:** Initially hide the video tag with `display:none` and show on play.
 
 
-### Poster image is not loaded / black
+### Poster image is not loaded / blackened
 
 On Chrome for iOs the image on `poster` isn't loaded.
 
