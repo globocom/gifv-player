@@ -122,6 +122,14 @@ describe('GifvPlayer - Playback', function () {
                 $video.trigger('loadeddata');
                 expect($poster.css('visibility')).toEqual('hidden');
             });
+
+            it('hides poster when video plays', function () {
+                var $video = this.$firstVideo.find('video'),
+                    $poster = this.$firstVideo.find('img');
+
+                $video.trigger('play');
+                expect($poster.css('visibility')).toEqual('hidden');
+            });
         });
 
         describe('on pause', function () {
