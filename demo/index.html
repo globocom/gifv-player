@@ -12,6 +12,9 @@
         }
     </style>
     <link rel="stylesheet" href="../src/css/gifv-player.css" type="text/css">
+    <!--[if lt IE 9]>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.2/html5shiv.min.js"></script>
+    <![endif]-->
 </head>
 <body>
     <h1>GifV Player Demo</h1>
@@ -33,7 +36,7 @@
         <div class="gifv-player-overlay"></div>
     </div>
 
-    <script src="http://code.jquery.com/jquery-1.8.3.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
     <script src="../src/js/gifv-player.js"></script>
     <script>
     player = new GifvPlayer();
