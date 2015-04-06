@@ -1,4 +1,4 @@
-/*! GIFV Player - v0.1.0 - 2015-04-02
+/*! GIFV Player - v0.1.1 - 2015-04-06
 * Copyright (c) 2015 Globo.com; Licensed MIT */
 function GifvPlayer() {
     'use strict';
@@ -79,7 +79,7 @@ function GifvPlayer() {
                 return true;
             });
 
-            $(this.videoSelector).on('loadeddata.gifv', function () {
+            $(this.videoSelector).on('loadeddata.gifv play.gifv', function () {
                 player.hidePoster($(this).parents(player.selector));
             });
 
