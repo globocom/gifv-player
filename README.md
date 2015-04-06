@@ -47,3 +47,66 @@ GIF files to browser supported video formats.
 
 [Thumbor]: https://github.com/thumbor/thumbor
 [Thumbor-Gifv]: https://github.com/thumbor/thumbor/wiki/GifV
+
+
+## Lessons learned / video support gotchas
+
+This library was tested on multiple browsers and devices and some issues
+required workarounds.
+
+The following list may help debugging playback problems or applying custom CSS
+or having playback issues.
+
+
+### Click is not triggered
+
+On some versions of Safari on iOs, tapping on the video may not trigger a click.
+
+**Solution:** Initially hide the video tag with `display:none` and show on play.
+
+
+### Poster image is not loaded / black
+
+On Chrome for iOs the image on `poster` isn't loaded.
+
+**Solution:** Use an `img` tag on top of the `video` tag.
+
+
+### Video tag dimensions are ignored
+
+On iOs, [video dimensions are not applied][video-dimensions-stack-overflow],
+it seems that the video file is not loaded and default iOs dimensions are used.
+
+**Solution:** Make `video` tag use `position:absolute` and have 100% of the
+`.gifv-player` container's dimensions. Use the `img` to stretch the container
+to the intended dimensions. Control the visibility of the `img` with
+`visibility:hidden/visible`.
+
+[video-dimensions-stack-overflow]: http://stackoverflow.com/questions/14250583/safari-on-ipad-ios6-does-not-scale-html5-video-to-fill-100-of-page-width
+
+
+### Video is stuck (paused) on fullscreen after second play
+
+On iOs, after the first play, the video may get stuck on pause because clicking
+the "OK" or "Done" button on the fullscreen view does not pause the video.
+
+**Solution**: Force the video to pause on `webkitendfullscreen` event.
+
+
+### `loadeddata` event isn't triggered on IE 9 (maybe IE9+).
+
+This event was used to hide the poster image. The video was playing but it was
+covered by the image.
+
+**Solution**: Additionally to listening to the `loadeddata` event, use the
+`play` event.
+
+
+### Weird playback in some browsers
+
+It seems that Chrome plays Webm better than mp4, or the video may be malformed.
+It might be a codec issue. This is not easily reproduced.
+
+**Solution:** Usually, `webm` produces smaller file sizes and is better
+supported, add the `webm` source tag before the `mp4` tag to make it first
+choice for the browser.
