@@ -115,14 +115,6 @@ describe('GifvPlayer - Playback', function () {
                 expect(this.$secondVideo.find('video')[0].paused).toBe(true);
             });
 
-            it('hides poster when data is loaded', function () {
-                var $video = this.$firstVideo.find('video'),
-                    $poster = this.$firstVideo.find('img');
-
-                $video.trigger('loadeddata');
-                expect($poster.css('visibility')).toEqual('hidden');
-            });
-
             it('hides poster when video plays', function () {
                 var $video = this.$firstVideo.find('video'),
                     $poster = this.$firstVideo.find('img');
