@@ -6,8 +6,10 @@
 Javascript library for playing [gifv][gifv] files with video browser support detection
 and fallback for pure gif.
 
-[gifv]: http://imgur.com/blog/2014/10/09/introducing-gifv/
+[Check out the demo!][demo]
 
+[gifv]: http://imgur.com/blog/2014/10/09/introducing-gifv/
+[demo]: http://globocom.github.io/gifv-player/demo/
 
 ## Usage
 
