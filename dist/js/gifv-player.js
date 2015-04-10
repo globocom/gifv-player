@@ -79,7 +79,7 @@ function GifvPlayer() {
                 return true;
             });
 
-            $(this.videoSelector).on('loadeddata.gifv play.gifv', function () {
+            $(this.videoSelector).on('play.gifv', function () {
                 player.hidePoster($(this).parents(player.selector));
             });
 
