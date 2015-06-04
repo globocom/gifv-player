@@ -40,8 +40,11 @@ function GifvPlayer() {
 
     GifvPlayer.prototype = {
         selector: '.gifv-player',
+        options: {
+            autostart: true
+        },
         init: function (options) {
-            this.options = options || {};
+            $.extend(this.options, options);
             this.videoSelector = this.selector + ' video';
 
             if (this.hasVideoSupport()) {
@@ -55,7 +58,7 @@ function GifvPlayer() {
             this.hideVideoElements();
         },
         destroy: function () {
-            $(document).off('.gifv');
+            $(document).off('.gifv').removeData('gifv-current');
             $(this.videoSelector).off('.gifv');
         },
         hideVideoElements: function () {
@@ -78,6 +81,15 @@ function GifvPlayer() {
 
                 return true;
             });
+
+            if (this.options.autostart) {
+                $(document).on('mouseenter.gifv', this.selector, function (event) {
+                    event.preventDefault();
+
+                    var $player = $(this);
+                    player.play($player);
+                });
+            }
 
             $(this.videoSelector).on('play.gifv', function () {
                 player.hidePoster($(this).parents(player.selector));
